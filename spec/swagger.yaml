@@ -140,7 +140,7 @@ paths:
       
       # you can use GFM in operation description too: https://guides.github.com/features/mastering-markdown
       description: You will need this method to dispaly all the information needed on the site. Use `tracking_id` to get information in specific user.
-      operationId: get_platform_data
+
       parameters:
         - name: tracking_id
           in: query
@@ -185,7 +185,6 @@ paths:
           description: 'Email provided by user'
           required: true
           type: string
-          example: 'my@email.com'
       responses:
         '200':
           description: 'OK'
@@ -204,20 +203,17 @@ paths:
         - My Account
       summary: Login existing user
       description: Use this method to login a user, and get his `token` for other requests. Store it in cookies or localStorage. 
-      operationId: signup
       parameters:
         - name: email
           in: query
           description: 'Email provided by user'
           required: true
           type: string
-          example: 'my@email.com'
         - name: password
           in: query
           description: 'Password provided by user'
           required: true
           type: string
-          example: 'ebcbeuc^Tdwb'
       responses:
         '200':
           description: 'OK'
@@ -244,7 +240,6 @@ paths:
           description: 'Email provided by user'
           required: true
           type: string
-          example: 'my@email.com'
       responses:
         '200':
           description: 'OK'
@@ -262,14 +257,12 @@ paths:
         - My Account
       summary: Logout the user
       description: Use this method to log out a user. 
-      operationId: restore
       parameters:
         - name: token
           in: query
           description: 'Token of current session from cookies'
           required: true
           type: string
-          example: '0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2'
       responses:
         '200':
           description: 'OK'
@@ -285,14 +278,12 @@ paths:
         - My Account
       summary: Get information of user
       description: Use this method to get information for user to display on the app. 
-      operationId: restore
       parameters:
         - name: token
           in: query
           description: 'Token of current session from cookies'
           required: true
           type: string
-          example: '0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2'
       responses:
         '200':
           description: 'OK'
@@ -333,14 +324,12 @@ paths:
         - Investment Progress
       summary: Get information on investment progress
       description: Use this method to get information for completed stepes by user. 
-      operationId: restore
       parameters:
         - name: token
           in: query
           description: 'Token of current session from cookies'
           required: true
           type: string
-          example: '0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2'
       responses:
         '200':
           description: 'OK'
@@ -360,14 +349,12 @@ paths:
         - Trading History
       summary: Get information on trading history
       description: Use this method to get information for history of trades by user. 
-      operationId: restore
       parameters:
         - name: token
           in: query
           description: 'Token of current session from cookies'
           required: true
           type: string
-          example: '0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2'
       responses:
         '200':
           description: 'OK'
@@ -402,14 +389,12 @@ paths:
         - Invites Management
       summary: Get information on invites 
       description: Use this method to get info on invites. 
-      operationId: restore
       parameters:
         - name: token
           in: query
-          description: 'Token of current session from cookies'
+          description: Token of current session from cookies
           required: true
           type: string
-          example: '0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2'
       responses:
         '200':
           description: 'OK'
@@ -431,29 +416,4 @@ paths:
 
 # An object to hold data types that can be consumed and produced by operations.
 # These data types can be primitives, arrays or models.
-definitions:
-  Email:
-    description: User email address
-    type: string
-    format: email
-    example: john.smith@example.com
-  User:
-    type: object
-    properties:
-      username:
-        description: User supplied username
-        type: string
-        minLength: 4
-        example: John78
-      firstName:
-        description: User first name
-        type: string
-        minLength: 1
-        example: John
-      lastName:
-        description: User last name
-        type: string
-        minLength: 1
-        example: Smith
-      email:
-        $ref: '#/definitions/Email'
+
