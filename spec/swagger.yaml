@@ -383,16 +383,21 @@ paths:
           description: 'Token is not valid'
           
   
-  '/platform_api/invites_management/info':
+  '/platform_api/invites_management/send_invitation':
     get:
       tags:
         - Invites Management
-      summary: Get information on invites 
-      description: Use this method to get info on invites. 
+      summary: Send invitation
+      description: Use this method to send invites. 
       parameters:
         - name: token
           in: query
           description: Token of current session from cookies
+          required: true
+          type: string
+        - name: email
+          in: query
+          description: 'Email to send invite to'
           required: true
           type: string
       responses:
@@ -400,16 +405,40 @@ paths:
           description: 'OK'
           examples:
             application/json: 
-              customers: 
-                bonus_paid: true
-                contact: "steeve@apple.com"
-                profit_paid: 185.34
-                status: "active"
-              invite_id: "7ae8704292f7"
-              profit_share_rate: 0.25
-              sign_up_bonus: 10
-        '401':
-          description: 'Token is not valid'
+              success: True
+        '505':
+          description: 'Failed to send email with invite'
+  
+  '/platform_api/invites_management/introduce_customer':
+    get:
+      tags:
+        - Invites Management
+      summary: Introduce customer
+      description: Use this method to send new customer name and phone number. 
+      parameters:
+        - name: token
+          in: query
+          description: Token of current session from cookies
+          required: true
+          type: string
+        - name: name
+          in: query
+          description: 'Name of the customer'
+          required: true
+          type: string
+        - name: phone
+          in: query
+          description: 'Phone of the customer'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'OK'
+          examples:
+            application/json: 
+              success: True
+        '505':
+          description: 'Failed to send email with invite'
 
 
 
