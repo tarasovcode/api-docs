@@ -1,0 +1,548 @@
+{
+  "swagger": "2.0",
+  "schemes": [
+    "http"
+  ],
+  "host": "82.146.40.93",
+  "basePath": "/",
+  "info": {
+    "description": "This is a **documentation** to A-Project API\n",
+    "version": "1.0.0",
+    "title": "A-Project",
+    "termsOfService": "",
+    "contact": {
+      "email": "tarasovcode@gamil.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "x-logo": {
+      "url": "https://cdn-images-1.medium.com/max/1200/1*lAR9Uh_gJ7dp23e0vhy5Hg.png"
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "Open API",
+      "description": "Open API for everyone"
+    },
+    {
+      "name": "My Account",
+      "description": "API calls for working with users"
+    }
+  ],
+  "securityDefinitions": {
+    "main_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://example.com/api/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "read:users": "read users info",
+        "write:users": "modify or remove users"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "api_key"
+    },
+    "basic_auth": {
+      "type": "basic"
+    }
+  },
+  "paths": {
+    "/open_api/create_tracking": {
+      "get": {
+        "tags": [
+          "Open API"
+        ],
+        "summary": "Create new tracking",
+        "description": "When new user opens up a website we need to perform a tracking by sending this create_tracking call with below params. \nIn response you will get a `tracking_id` that should be stored in cookies or localStorage forever and will be used for user registration.  \n",
+        "operationId": "getUserByName",
+        "parameters": [
+          {
+            "name": "invite_id",
+            "in": "query",
+            "description": "take `i` or `invite` query argument from URL",
+            "type": "string"
+          },
+          {
+            "name": "utm_source",
+            "in": "query",
+            "description": "take `utm_source` query argument from URL",
+            "type": "string"
+          },
+          {
+            "name": "utm_medium",
+            "in": "query",
+            "description": "take `utm_medium` query argument from URL",
+            "type": "string"
+          },
+          {
+            "name": "utm_campaign",
+            "in": "query",
+            "description": "take `utm_campaign` query argument from URL",
+            "type": "string"
+          },
+          {
+            "name": "utm_term",
+            "in": "query",
+            "description": "take `utm_term` query argument from URL",
+            "type": "string"
+          },
+          {
+            "name": "utm_content",
+            "in": "query",
+            "description": "take `utm_content` query argument from URL",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "examples": {
+              "application/json": {
+                "tracking_id": "5beacebd1970b35f57a6bb06",
+                "created_at": "Tue, 13 Nov 2018 13:16:45 GMT",
+                "invite_id": "copy of invite_id",
+                "utm_data": "copy of utm_data"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/open_api/get_platform_data": {
+      "get": {
+        "tags": [
+          "Open API"
+        ],
+        "summary": "Get platform information",
+        "description": "You will need this method to dispaly all the information needed on the site. Use `tracking_id` to get information in specific user.",
+        "operationId": "get_platform_data",
+        "parameters": [
+          {
+            "name": "tracking_id",
+            "in": "query",
+            "description": "You can get `tracking_id` from `create_tracking` method",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "examples": {
+              "application/json": {
+                "assets_under_management": 37938674,
+                "assets_under_management_24_change": 379234,
+                "historical_performance": {
+                  "FUND_NAME": {
+                    "data": "float",
+                    "month": "int",
+                    "yaer": "int"
+                  }
+                },
+                "last_24h_performance": 2.51,
+                "last_week_performance": 13.76,
+                "number_of_customers": 12733,
+                "number_of_customers_24h_change": 245,
+                "stabilization_fund_size": 2894143,
+                "stabilization_fund_size_24h_change": 42785
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform_api/my_account/signup": {
+      "get": {
+        "tags": [
+          "My Account"
+        ],
+        "summary": "Crating new account",
+        "description": "Use this method for user registration. As response you will get `token` param that should be store in cookies or localStorage and will be used in every `platform_api` request.",
+        "operationId": "signup",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email provided by user",
+            "required": true,
+            "type": "string",
+            "example": "my@email.com"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "account_id": 562,
+                "created_at": "Tue, 13 Nov 2018 13:16:45 GMT",
+                "token": "0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2"
+              }
+            }
+          },
+          "401": {
+            "description": "Email is already used, use `restore` method instead"
+          },
+          "505": {
+            "description": "Failed to send email with password"
+          }
+        }
+      }
+    },
+    "/platform_api/my_account/login": {
+      "get": {
+        "tags": [
+          "My Account"
+        ],
+        "summary": "Login existing user",
+        "description": "Use this method to login a user, and get his `token` for other requests. Store it in cookies or localStorage.",
+        "operationId": "signup",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email provided by user",
+            "required": true,
+            "type": "string",
+            "example": "my@email.com"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "Password provided by user",
+            "required": true,
+            "type": "string",
+            "example": "ebcbeuc^Tdwb"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "account_id": 562,
+                "created_at": "Tue, 13 Nov 2018 13:16:45 GMT",
+                "token": "0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2"
+              }
+            }
+          },
+          "401": {
+            "description": "Email is already used, use `restore` method instead"
+          },
+          "505": {
+            "description": "Failed to send email with password"
+          }
+        }
+      }
+    },
+    "/platform_api/my_account/restore": {
+      "get": {
+        "tags": [
+          "My Account"
+        ],
+        "summary": "Restore lost password",
+        "description": "Use this method if user does not remeber his password. This method will send a new password letter to provided `email`.",
+        "operationId": "restore",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email provided by user",
+            "required": true,
+            "type": "string",
+            "example": "my@email.com"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "success": true
+              }
+            }
+          },
+          "401": {
+            "description": "Email is not used by any user"
+          },
+          "505": {
+            "description": "Failed to send email with password"
+          }
+        }
+      }
+    },
+    "/platform_api/my_account/logout": {
+      "get": {
+        "tags": [
+          "My Account"
+        ],
+        "summary": "Logout the user",
+        "description": "Use this method to log out a user.",
+        "operationId": "restore",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token of current session from cookies",
+            "required": true,
+            "type": "string",
+            "example": "0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "success": true
+              }
+            }
+          },
+          "401": {
+            "description": "Token is not valid"
+          }
+        }
+      }
+    },
+    "/platform_api/my_account/info": {
+      "get": {
+        "tags": [
+          "My Account"
+        ],
+        "summary": "Get information of user",
+        "description": "Use this method to get information for user to display on the app.",
+        "operationId": "restore",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token of current session from cookies",
+            "required": true,
+            "type": "string",
+            "example": "0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "capital_btc": 2.89461204,
+                "capital_usd": 18687.61533024,
+                "email": "new2@email.com",
+                "gain_24h_btc": 0.05839212,
+                "gain_24h_pct": 0.03746492,
+                "manager": {
+                  "email": "alexia@a-project.com",
+                  "name": "Alexia Samertone",
+                  "phone": "+79257684309",
+                  "telegram": "alexiasametone"
+                },
+                "plans": {
+                  "amount_btc": 1.47825613,
+                  "cancelable": false,
+                  "duration": 30,
+                  "fund": "Veren",
+                  "gain_24h_btc": 0.00856313,
+                  "gain_24h_pct": 0.01337462,
+                  "gain_total_btc": 0.58932764,
+                  "gain_total_pct": 0.18464629,
+                  "gain_week_btc": 0.16463632,
+                  "gain_week_pct": 0.0532548,
+                  "reinvesting": true,
+                  "time_finish": "Sun, 25 Nov 2018 16:25:00 GMT",
+                  "time_start": "Thu, 25 Oct 2018 16:25:00 GMT"
+                },
+                "startup_page": "progress",
+                "status": "created"
+              }
+            }
+          },
+          "401": {
+            "description": "Token is not valid"
+          }
+        }
+      }
+    },
+    "/platform_api/investment_progress/info": {
+      "get": {
+        "tags": [
+          "Investment Progress"
+        ],
+        "summary": "Get information on investment progress",
+        "description": "Use this method to get information for completed stepes by user.",
+        "operationId": "restore",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token of current session from cookies",
+            "required": true,
+            "type": "string",
+            "example": "0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "step_1": true,
+                "step_2": true,
+                "step_3": false,
+                "step_4": false,
+                "step_5": false
+              }
+            }
+          },
+          "401": {
+            "description": "Token is not valid"
+          }
+        }
+      }
+    },
+    "/platform_api/trading_history/info": {
+      "get": {
+        "tags": [
+          "Trading History"
+        ],
+        "summary": "Get information on trading history",
+        "description": "Use this method to get information for history of trades by user.",
+        "operationId": "restore",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token of current session from cookies",
+            "required": true,
+            "type": "string",
+            "example": "0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "profitable_trades": 10,
+                "unprofitable_trades": 15,
+                "trades": {
+                  "commission": 0.5,
+                  "compensation": 0,
+                  "fund": "Veren",
+                  "margin": 10,
+                  "market": "ETH/BTC",
+                  "price_close": 0.03129,
+                  "price_open": 0.0311,
+                  "profit_btc": 0.04728465,
+                  "profit_pct": 0.03467823,
+                  "profit_usd": 278.943241,
+                  "profitable": true,
+                  "side": "BUY",
+                  "time": "Tue, 13 Nov 2018 16:30:46 GMT",
+                  "trade_id": 1
+                }
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          "401": {
+            "description": "Token is not valid"
+          }
+        }
+      }
+    },
+    "/platform_api/invites_management/info": {
+      "get": {
+        "tags": [
+          "Invites Management"
+        ],
+        "summary": "Get information on invites",
+        "description": "Use this method to get info on invites.",
+        "operationId": "restore",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token of current session from cookies",
+            "required": true,
+            "type": "string",
+            "example": "0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "customers": {
+                  "bonus_paid": true,
+                  "contact": "steeve@apple.com",
+                  "profit_paid": 185.34,
+                  "status": "active"
+                },
+                "invite_id": "7ae8704292f7",
+                "profit_share_rate": 0.25,
+                "sign_up_bonus": 10
+              }
+            }
+          },
+          "401": {
+            "description": "Token is not valid"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Email": {
+      "description": "User email address",
+      "type": "string",
+      "format": "email",
+      "example": "john.smith@example.com"
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "description": "User supplied username",
+          "type": "string",
+          "minLength": 4,
+          "example": "John78"
+        },
+        "firstName": {
+          "description": "User first name",
+          "type": "string",
+          "minLength": 1,
+          "example": "John"
+        },
+        "lastName": {
+          "description": "User last name",
+          "type": "string",
+          "minLength": 1,
+          "example": "Smith"
+        },
+        "email": {
+          "$ref": "#/definitions/Email"
+        }
+      }
+    }
+  }
+}
