@@ -1,0 +1,10 @@
+{
+  "generator-openapi-repo": {
+    "importExistingSpec": false,
+    "name": "A-Project",
+    "repo": "tarasovcode/api-docs",
+    "splitSpec": false,
+    "samples": true,
+    "installSwaggerUI": true
+  }
+}
