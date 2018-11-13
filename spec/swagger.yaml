@@ -6,69 +6,48 @@ swagger: '2.0'
 #   <schemes>://<host><basepath>
 schemes:
   - http # Remove if your API doesn't support HTTP
-  - https # Remove if your API donsn't support HTTPS
-host: example.com # Replace with your hostname. You can also specify port e.g. example.com:777
-basePath: /api/v1 # Replace with your basePath. Note: SHOULD begin with '/'.
+host: 82.146.40.93 # Replace with your hostname. You can also specify port e.g. example.com:777
+basePath: / # Replace with your basePath. Note: SHOULD begin with '/'.
 info:
   # Describe your API here, you can use GFM (https://guides.github.com/features/mastering-markdown) here
   description: |
-    This is an **example** API to demontstrate features of OpenAPI specification
-    # Introduction
-    This specification is intended to to be a good starting point for describint your API in 
-    [OpenAPI/Swagger format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md).
-    It also demonstrates features of [generator-openapi-repo](https://github.com/Rebilly/generator-openapi-repo) tool and 
-    [ReDoc](https://github.com/Rebilly/ReDoc) documentation engine. So beyond the standard OpenAPI syntax we use a few 
-    [vendor extensions](https://github.com/Rebilly/ReDoc/blob/master/docs/redoc-vendor-extensions.md).
-    
-    # OpenAPI Specification
-    The goal of The OpenAPI Specification is to define a standard, language-agnostic interface to REST APIs which
-    allows both humans and computers to discover and understand the capabilities of the service without access to source
-    code, documentation, or through network traffic inspection. When properly defined via OpenAPI, a consumer can 
-    understand and interact with the remote service with a minimal amount of implementation logic. Similar to what
-    interfaces have done for lower-level programming, OpenAPI removes the guesswork in calling the service.
+    This is a **documentation** to A-Project API
 
   version: '1.0.0' # Your API version
   # It can be any string but it is better to use semantic versioning: http://semver.org/
   # Warning: OpenAPI require version to be string, but without quotation YAML can recognize it as number.
 
-  title: Example.com # Replace with your API title
+  title: A-Project # Replace with your API title
   # Keep it simple. Don't add "API" or verison at the end of the string.
 
-  termsOfService: 'https://example.com/terms/' # [Optional] Replace with an URL to your ToS
+  termsOfService: '' # [Optional] Replace with an URL to your ToS
   contact:
-    email: contact@example.com # [Optional] Replace with your contact email
-    url: 'http://example.com/contact' # [Optional] Replace with link to your contact form
+    email: tarasovcode@gamil.com # [Optional] Replace with your contact email
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
   x-logo:
-    url: 'https://apis.guru/openapi-template/logo.png'
-externalDocs:
-  description: Find out how to create Github repo for your OpenAPI spec.
-  url: 'https://github.com/Rebilly/generator-openapi-repo'
+    url: 'https://cdn-images-1.medium.com/max/1200/1*lAR9Uh_gJ7dp23e0vhy5Hg.png'
 produces:
   # List of mime types your API endpoins can return.
   # This is a global default. You can OVERWRITE it in each specific operation.
   # Remove the ones not used in your API
   - application/json
-  - application/xml
-  - text/csv
   # you can add any mime type your API produces to the list
 consumes:
   # List of mime types your API endpoins consumes.
   # This is a global default. You can OVERWRITE it in each specific operation.
   # Remove the ones not supported by your API
   - application/json
-  - application/xml
   # you can add any mime type your API consumes to the list
 
 # A list of tags used by the specification with additional metadata.
 # The order of the tags can be used to reflect on their order by the parsing tools.
 tags:
-  - name: Echo
-    description: Example echo operations
-  - name: User
-    description: Operations about user
+  - name: Open API
+    description: Open API for everyone
+  - name: My Account
+    description: API calls for working with users
 # Security scheme definitions that can be used across the specification.
 securityDefinitions:
   main_auth: # security definition name (you can name it as you want)
@@ -90,132 +69,366 @@ securityDefinitions:
 # Holds the relative paths to the individual endpoints. The path is appended to the
 # basePath in order to construct the full URL. 
 paths:
-  '/users/{username}': # path parameter in curly braces
+  '/open_api/create_tracking': # path parameter in curly braces
     # documentation for GET operation for this path
     
     # parameters list that are used with each operation for this path
-    parameters:
-      - name: pretty_print
-        in: query # place where paramter is passed: path, header, query or body, formData
-        description: Pretty print response
-        # type of the paramter: string, number, integer, boolean, array
-        type: boolean
     get:
       tags:
-        - User
+        - Open API
       
       # summary is up to 120 symbold but we recommend to be shortest as possible
-      summary: Get user by user name
+      summary: Create new tracking 
       
       # you can use GFM in operation description too: https://guides.github.com/features/mastering-markdown
       description: | 
-        Some description of the operation. 
-        You can use `markdown` here.
+        When new user opens up a website we need to perform a tracking by sending this create_tracking call with below params. 
+        In response you will get a `tracking_id` that should be stored in cookies or localStorage forever and will be used for user registration.  
       
       # operationId should be unique across the whole specification
       operationId: getUserByName
       
       # list of parameters for the operation
       parameters:
-        - name: username
-          in: path
-          description: 'The name that needs to be fetched'
-          required: true
-          type: string
-        - name: with_email
+        - name: invite_id
           in: query
-          description: Filter users without email
-          type: boolean
+          description: take `i` or `invite` query argument from URL
+          type: string
+        - name: utm_source
+          in: query
+          description: take `utm_source` query argument from URL
+          type: string
+        - name: utm_medium
+          in: query
+          description: take `utm_medium` query argument from URL
+          type: string
+        - name: utm_campaign
+          in: query
+          description: take `utm_campaign` query argument from URL
+          type: string
+        - name: utm_term
+          in: query
+          description: take `utm_term` query argument from URL
+          type: string
+        - name: utm_content
+          in: query
+          description: take `utm_content` query argument from URL
+          type: string
       
       # security schemas applied to this operation
-      security:
-        - main_auth:
-          - 'read:users' # for auth2 provide list of scopes here
-        - api_key: []
       # overwriting default global produces
       produces:
         - application/json
       responses: # list of responses
         '200':
           description: Success
-          schema: # response schema can be specified for each response
-            $ref: '#/definitions/User'
           examples:
           # repsonse samples for each type operation produces
             application/json:
-              username: user1
-              email: user@example.com
-        '403':
-          description: Forbidden
-        '404':
-          description: User not found
-    # documentation for PUT operation for this path
-    put:
+              tracking_id: "5beacebd1970b35f57a6bb06"
+              created_at: "Tue, 13 Nov 2018 13:16:45 GMT"
+              invite_id: 'copy of invite_id'
+              utm_data: 'copy of utm_data'
+              
+  '/open_api/get_platform_data':
+    get:
       tags:
-        - User
-      summary: Updated user
-      description: This can only be done by the logged in user.
-      operationId: updateUser
+        - Open API
+      
+      # summary is up to 120 symbold but we recommend to be shortest as possible
+      summary: Get platform information
+      
+      # you can use GFM in operation description too: https://guides.github.com/features/mastering-markdown
+      description: You will need this method to dispaly all the information needed on the site. Use `tracking_id` to get information in specific user.
+      operationId: get_platform_data
+      parameters:
+        - name: tracking_id
+          in: query
+          description: You can get `tracking_id` from `create_tracking` method
+          type: string
+      
+      # security schemas applied to this operation
+      # overwriting default global produces
       produces:
         - application/json
+      responses: # list of responses
+        '200':
+          description: Success
+          examples:
+          # repsonse samples for each type operation produces
+            application/json:
+              assets_under_management: 37938674
+              assets_under_management_24_change: 379234
+              historical_performance: 
+                FUND_NAME: 
+                  data: float
+                  month: int
+                  yaer: int
+              last_24h_performance: 2.51
+              last_week_performance: 13.76
+              number_of_customers: 12733
+              number_of_customers_24h_change: 245
+              stabilization_fund_size: 2894143
+              stabilization_fund_size_24h_change: 42785
+    
+  
+  '/platform_api/my_account/signup':
+    get:
+      tags:
+        - My Account
+      summary: Crating new account
+      description: Use this method for user registration. As response you will get `token` param that should be store in cookies or localStorage and will be used in every `platform_api` request.
+      operationId: signup
       parameters:
-        - name: username
-          in: path
-          description: The name that needs to be updated
+        - name: email
+          in: query
+          description: 'Email provided by user'
           required: true
           type: string
-        - in: body
-          name: body
-          description: Updated user object
-          required: true
-          # for body parameter you should specify request schema instead of type
-          schema:
-            $ref: '#/definitions/User'
-      security:
-        - main_auth:
-          - 'write:users'
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Invalid user supplied
-        '404':
-          description: User not found
-  
-  '/echo':
-    post:
-      tags:
-        - Echo
-      summary: Echo test
-      description: Receive the exact message you've sent
-      operationId: echo
-      parameters:
-        - name: message
-          in: body
-          description: 'Echo payload'
-          required: true
-          schema:
-            type: string
-            example: 'Hello world!'
-      security:
-        - api_key: []
+          example: 'my@email.com'
       responses:
         '200':
           description: 'OK'
           examples:
-            'application/json': 'Hello world!'
+            application/json: 
+              account_id: 562
+              created_at: "Tue, 13 Nov 2018 13:16:45 GMT"
+              token: "0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2"
+        '401':
+          description: 'Email is already used, use `restore` method instead'
+        '505':
+          description: 'Failed to send email with password'
+  '/platform_api/my_account/login':
+    get:
+      tags:
+        - My Account
+      summary: Login existing user
+      description: Use this method to login a user, and get his `token` for other requests. Store it in cookies or localStorage. 
+      operationId: signup
+      parameters:
+        - name: email
+          in: query
+          description: 'Email provided by user'
+          required: true
+          type: string
+          example: 'my@email.com'
+        - name: password
+          in: query
+          description: 'Password provided by user'
+          required: true
+          type: string
+          example: 'ebcbeuc^Tdwb'
+      responses:
+        '200':
+          description: 'OK'
+          examples:
+            application/json: 
+              account_id: 562
+              created_at: "Tue, 13 Nov 2018 13:16:45 GMT"
+              token: "0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2"
+        '401':
+          description: 'Email is already used, use `restore` method instead'
+        '505':
+          description: 'Failed to send email with password'
+
+  '/platform_api/my_account/restore':
+    get:
+      tags:
+        - My Account
+      summary: Restore lost password
+      description: Use this method if user does not remeber his password. This method will send a new password letter to provided `email`. 
+      operationId: restore
+      parameters:
+        - name: email
+          in: query
+          description: 'Email provided by user'
+          required: true
+          type: string
+          example: 'my@email.com'
+      responses:
+        '200':
+          description: 'OK'
+          examples:
+            application/json: 
+              success: True
+        '401':
+          description: 'Email is not used by any user'
+        '505':
+          description: 'Failed to send email with password'
+          
+  '/platform_api/my_account/logout':
+    get:
+      tags:
+        - My Account
+      summary: Logout the user
+      description: Use this method to log out a user. 
+      operationId: restore
+      parameters:
+        - name: token
+          in: query
+          description: 'Token of current session from cookies'
+          required: true
+          type: string
+          example: '0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2'
+      responses:
+        '200':
+          description: 'OK'
+          examples:
+            application/json: 
+              success: True
+        '401':
+          description: 'Token is not valid'
+  
+  '/platform_api/my_account/info':
+    get:
+      tags:
+        - My Account
+      summary: Get information of user
+      description: Use this method to get information for user to display on the app. 
+      operationId: restore
+      parameters:
+        - name: token
+          in: query
+          description: 'Token of current session from cookies'
+          required: true
+          type: string
+          example: '0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2'
+      responses:
+        '200':
+          description: 'OK'
+          examples:
+            application/json: 
+              capital_btc: 2.89461204
+              capital_usd: 18687.61533024
+              email: "new2@email.com"
+              gain_24h_btc: 0.05839212
+              gain_24h_pct: 0.03746492
+              manager: 
+                email: "alexia@a-project.com"
+                name: "Alexia Samertone"
+                phone: "+79257684309"
+                telegram: "alexiasametone"
+              plans: 
+                amount_btc: 1.47825613
+                cancelable: false
+                duration: 30
+                fund: "Veren"
+                gain_24h_btc: 0.00856313
+                gain_24h_pct: 0.01337462
+                gain_total_btc: 0.58932764
+                gain_total_pct: 0.18464629
+                gain_week_btc: 0.16463632
+                gain_week_pct: 0.0532548
+                reinvesting: true
+                time_finish: "Sun, 25 Nov 2018 16:25:00 GMT"
+                time_start: "Thu, 25 Oct 2018 16:25:00 GMT"
+              startup_page: "progress"
+              status: "created"
+        '401':
+          description: 'Token is not valid'
+          
+  '/platform_api/investment_progress/info':
+    get:
+      tags:
+        - Investment Progress
+      summary: Get information on investment progress
+      description: Use this method to get information for completed stepes by user. 
+      operationId: restore
+      parameters:
+        - name: token
+          in: query
+          description: 'Token of current session from cookies'
+          required: true
+          type: string
+          example: '0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2'
+      responses:
+        '200':
+          description: 'OK'
+          examples:
+            application/json: 
+              step_1: true
+              step_2: true
+              step_3: false
+              step_4: false
+              step_5: false
+        '401':
+          description: 'Token is not valid'
+  
+  '/platform_api/trading_history/info':
+    get:
+      tags:
+        - Trading History
+      summary: Get information on trading history
+      description: Use this method to get information for history of trades by user. 
+      operationId: restore
+      parameters:
+        - name: token
+          in: query
+          description: 'Token of current session from cookies'
+          required: true
+          type: string
+          example: '0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2'
+      responses:
+        '200':
+          description: 'OK'
+          examples:
+            application/json: 
+              profitable_trades: 10
+              unprofitable_trades: 15
+              trades: 
+                commission: 0.5
+                compensation: 0
+                fund: "Veren"
+                margin: 10
+                market: "ETH/BTC"
+                price_close: 0.03129
+                price_open: 0.0311
+                profit_btc: 0.04728465
+                profit_pct: 0.03467823
+                profit_usd: 278.943241
+                profitable: true
+                side: "BUY"
+                time: "Tue, 13 Nov 2018 16:30:46 GMT"
+                trade_id: 1
           schema:
             type: string
-          # docuemnt headers for this repsonse
-          headers:
-            X-Rate-Limit: # Header name
-              type: integer # Header value type
-              format: int32 # Header value format
-              description: calls per hour allowed by the user
-            X-Expires-After:
-              type: string
-              format: date-time
-              description: date in UTC when token expires
+        '401':
+          description: 'Token is not valid'
+          
+  
+  '/platform_api/invites_management/info':
+    get:
+      tags:
+        - Invites Management
+      summary: Get information on invites 
+      description: Use this method to get info on invites. 
+      operationId: restore
+      parameters:
+        - name: token
+          in: query
+          description: 'Token of current session from cookies'
+          required: true
+          type: string
+          example: '0e5765d6db6c2ab943c1ab344f5236c5a4dde6e7a75ceac2'
+      responses:
+        '200':
+          description: 'OK'
+          examples:
+            application/json: 
+              customers: 
+                bonus_paid: true
+                contact: "steeve@apple.com"
+                profit_paid: 185.34
+                status: "active"
+              invite_id: "7ae8704292f7"
+              profit_share_rate: 0.25
+              sign_up_bonus: 10
+        '401':
+          description: 'Token is not valid'
+
+
+
+
 # An object to hold data types that can be consumed and produced by operations.
 # These data types can be primitives, arrays or models.
 definitions:
